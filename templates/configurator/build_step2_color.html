@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Build Your {{ model.name }}</h1>
+    <p>Phase 2: Select Exterior Color</p>
+</div>
+
+<div class="container configurator-layout">
+    <aside class="config-sidebar">
+        <h3>Your Build</h3>
+        <img src="{{ url_for('static', filename='uploads/' + model.image_file) }}" alt="{{ model.name }}" style="width: 100%; border-radius: 8px;">
+        
+        <div class="config-summary-item">
+            <span>Base Model</span>
+            <span>INR {{ "%.2f"|format(model.base_price) }}</span>
+        </div>
+        
+        <div class="config-total">
+            <span>Total</span>
+            <span>INR {{ "%.2f"|format(model.base_price) }}</span>
+        </div>
+    </aside>
+
+    <main class="config-options">
+        <h2>Choose Your Color</h2>
+        <div class="option-grid">
+            {% for color in colors %}
+            <a href="{{ url_for('configurator.build_step3_wheel', model_id=model.id, color_id=color.id) }}" class="option-card">
+                <img src="{{ url_for('static', filename='uploads/' + color.image_file) }}" alt="{{ color.name }}" class="option-image">
+                <div class="option-info">
+                    <strong>{{ color.name }}</strong>
+                    <span>+ INR {{ "%.2f"|format(color.price) }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

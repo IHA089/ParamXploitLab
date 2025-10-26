@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="hero">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="/static/videos/1.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>THE FUTURE OF DRIVING</h1>
+            <p>Experience the next generation of luxury and performance.</p>
+            <div>
+                <a href="{{ url_for('shopping.car_list') }}" class="btn btn-primary">Shop New Inventory</a>
+                <a href="{{ url_for('configurator.build_step1_model') }}" class="btn btn-outline">Build Your Own</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="text-align: center; padding: 4rem 2rem;">
+        
+        <h2 style="color: var(--color-secondary);">EXPLORE OUR LINEUP</h2>
+        <p style="color: var(--color-light-grey); margin-bottom: 3rem;">From all-electric to the pinnacle of performance.</p>
+
+        <div class="car-grid">
+            
+            {% for model in models %}
+            <div class="car-card">
+                <img src="{{ url_for('static', filename='uploads/' + model.image_file) }}" class="car-card-image" alt="{{ model.name }}">
+                <div class="car-card-content">
+                    <h3>{{ model.name }}</h3>
+                    <p>Starting at ${{ "%.2f"|format(model.base_price) }}</p>
+                    <a href="{{ url_for('configurator.build_step2_color', model_id=model.id) }}" class="btn btn-primary">Build Yours</a>
+                </div>
+            </div>
+            {% else %}
+            <p>No models available to feature.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+    {% endblock %}

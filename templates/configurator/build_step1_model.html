@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Build Your Own BMW</h1>
+    <p>Phase 1: Select Your Model</p>
+</div>
+
+<div class="container">
+    <h2>Choose Your Series</h2>
+    <div class="car-grid" style="margin-top: 2rem;">
+        
+        {% for model in models %}
+        <div class="car-card">
+            <img src="{{ url_for('static', filename='uploads/' + model.image_file) }}" class="car-card-image" alt="{{ model.name }}">
+            <div class="car-card-content">
+                <h3>{{ model.name }}</h3>
+                <p>Starting at INR {{ "%.2f"|format(model.base_price) }}</p>
+                <a href="{{ url_for('configurator.build_step2_color', model_id=model.id) }}" class="btn btn-primary">Select</a>
+            </div>
+        </div>
+        {% else %}
+        <p>No models available to configure. Please run the /init-data route.</p>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

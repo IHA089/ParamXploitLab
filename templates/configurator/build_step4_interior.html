@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Build Your {{ model.name }}</h1>
+    <p>Phase 4: Select Interior</p>
+</div>
+
+<div class="container configurator-layout">
+    <aside class="config-sidebar">
+        <h3>Your Build</h3>
+        <img src="{{ url_for('static', filename='uploads/' + color.image_file) }}" alt="{{ model.name }}" style="width: 100%; border-radius: 8px;">
+        
+        <div class="config-summary-item">
+            <span>Base Model</span>
+            <span>INR {{ "%.2f"|format(model.base_price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Color: {{ color.name }}</span>
+            <span>+ INR {{ "%.2f"|format(color.price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Wheels: {{ wheel.name }}</span>
+            <span>+ INR {{ "%.2f"|format(wheel.price) }}</span>
+        </div>
+        
+        <div class="config-total">
+            <span>Total</span>
+            <span>INR {{ "%.2f"|format(current_price) }}</span>
+        </div>
+    </aside>
+
+    <main class="config-options">
+        <h2>Choose Your Interior</h2>
+        <div class="option-grid">
+            {% for interior in interiors %}
+            <a href="{{ url_for('configurator.build_step5_review', model_id=model.id, color_id=color.id, wheel_id=wheel.id, interior_id=interior.id) }}" class="option-card">
+                <img src="{{ url_for('static', filename='uploads/' + interior.image_file) }}" alt="{{ interior.name }}" class="option-image">
+                <div class="option-info">
+                    <strong>{{ interior.name }}</strong>
+                    <span>+ INR {{ "%.2f"|format(interior.price) }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

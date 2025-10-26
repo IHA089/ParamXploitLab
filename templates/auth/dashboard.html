@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Hello, {{ current_user.username }}!</h1>
+        <p>This is your personal dashboard. You can view your saved cars, test drives, and settings here.</p>
+    </div>
+
+    <div class="container">
+        <h2>My Test Drives</h2>
+        {% if test_drives %}
+            <table class="data-table" style="width: 100%; margin-top: 1rem; border-collapse: collapse; margin-bottom: 3rem;">
+                <tbody>
+                    {% for drive in test_drives %}
+                    <tr style="border-bottom: 1px solid var(--color-mid-dark);">
+                        <td style="padding: 1rem;">{{ drive.car.year }} {{ drive.car.make }} {{ drive.car.model }}</td>
+                        <td style="padding: 1rem;">{{ drive.date_requested.strftime('%Y-%m-%d') }}</td>
+                        <td style="padding: 1rem;">{{ drive.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="margin-bottom: 3rem;">You have not booked any test drives yet.</p>
+        {% endif %}
+
+        <h2>My Saved Configurations</h2>
+        {% if configurations %}
+            <div class="car-grid">
+                {% for config in configurations %}
+                    <div class="car-card">
+                        <img src="{{ url_for('static', filename='uploads/' + config.color.image_file) }}" alt="{{ config.model.name }}" class="car-card-image">
+                        <div class="car-card-content">
+                            <h3>My {{ config.model.name }}</h3>
+                            <p>Total: ${{ "%.2f"|format(config.total_price) }}</p>
+                            <ul style="font-size: 0.9rem; color: var(--color-light-grey); list-style: none; margin-bottom: 1rem;">
+                                <li><strong>Color:</strong> {{ config.color.name }}</li>
+                                <li><strong>Wheels:</strong> {{ config.wheel.name }}</li>
+                                <li><strong>Interior:</strong> {{ config.interior.name }}</li>
+                            </ul>
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>You have no saved configurations.</p>
+        {% endif %}
+
+    </div>
+{% endblock %}

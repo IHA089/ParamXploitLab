@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Your Custom {{ model.name }}</h1>
+    <p>Review your complete build.</p>
+</div>
+
+<div class="container configurator-layout">
+    <aside class="config-sidebar">
+        <h3>Your Final Build</h3>
+        <img src="{{ url_for('static', filename='uploads/' + color.image_file) }}" alt="{{ model.name }}" style="width: 100%; border-radius: 8px;">
+        
+        <div class="config-summary-item">
+            <span>Base Model</span>
+            <span>INR {{ "%.2f"|format(model.base_price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Color: {{ color.name }}</span>
+            <span>+ INR {{ "%.2f"|format(color.price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Wheels: {{ wheel.name }}</span>
+            <span>+ INR {{ "%.2f"|format(wheel.price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Interior: {{ interior.name }}</span>
+            <span>+ INR {{ "%.2f"|format(interior.price) }}</span>
+        </div>
+        
+        <div class="config-total">
+            <span>Total Price</span>
+            <span>INR {{ "%.2f"|format(total_price) }}</span>
+        </div>
+    </aside>
+
+    <main class="config-options">
+        <h2>Complete Your Build</h2>
+        <p>You've designed your perfect BMW. Save it to your garage to review later or discuss with our team.</p>
+        
+        <form action="{{ url_for('configurator.save_configuration') }}" method="POST" style="margin-top: 2rem;">
+            <input type="hidden" name="model_id" value="{{ model.id }}">
+            <input type="hidden" name="color_id" value="{{ color.id }}">
+            <input type="hidden" name="wheel_id" value="{{ wheel.id }}">
+            <input type="hidden" name="interior_id" value="{{ interior.id }}">
+            <input type="hidden" name="total_price" value="{{ total_price }}">
+            
+            {% if current_user.is_authenticated %}
+                <button type="submit" class="btn btn-primary">Save to My Garage</button>
+            {% else %}
+                <p>Please <a href="{{ url_for('auth.login') }}">login</a> to save your build.</p>
+            {% endif %}
+        </form>
+    </main>
+</div>
+{% endblock %}

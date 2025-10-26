@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Our Inventory</h1>
+        <p>Explore the latest and greatest from BMW's futuristic lineup.</p>
+    </div>
+
+    <div class="container">
+        <div class="car-grid">
+            {% for car in cars %}
+                <div class="car-card">
+                    {# Use the image_file from the car object #}
+                    <img src="{{ url_for('static', filename='uploads/' + car.image_file) }}" alt="{{ car.model }}" class="car-card-image">
+                    <div class="car-card-content">
+                        <h3>{{ car.year }} {{ car.make }} {{ car.model }}</h3>
+                        <p>Price: {{ car.price }}</p>
+                        <a href="{{ url_for('shopping.car_detail', car_id=car.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="container" style="text-align: center;">No cars in inventory right now. Please check back later.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

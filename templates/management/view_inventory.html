@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Manage Site Inventory</h1>
+    <a href="{{ url_for('management.add_car') }}"> + Add New Car</a>
+    
+    <table border="1" style="width:100%; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+            <tr>
+                <td>{{ car.id }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.year }}</td>
+                <td>INR{{ car.price }}</td>
+                <td>
+                    <a href="#">Edit</a> <a href="#">Delete</a> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

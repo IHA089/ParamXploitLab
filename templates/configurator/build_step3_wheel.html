@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Build Your {{ model.name }}</h1>
+    <p>Phase 3: Select Wheels</p>
+</div>
+
+<div class="container configurator-layout">
+    <aside class="config-sidebar">
+        <h3>Your Build</h3>
+        <img src="{{ url_for('static', filename='uploads/' + color.image_file) }}" alt="{{ model.name }}" style="width: 100%; border-radius: 8px;">
+        
+        <div class="config-summary-item">
+            <span>Base Model</span>
+            <span>INR {{ "%.2f"|format(model.base_price) }}</span>
+        </div>
+        <div class="config-summary-item">
+            <span>Color: {{ color.name }}</span>
+            <span>+ INR {{ "%.2f"|format(color.price) }}</span>
+        </div>
+        
+        <div class="config-total">
+            <span>Total</span>
+            <span>INR {{ "%.2f"|format(current_price) }}</span>
+        </div>
+    </aside>
+
+    <main class="config-options">
+        <h2>Choose Your Wheels</h2>
+        <div class="option-grid">
+            {% for wheel in wheels %}
+            <a href="{{ url_for('configurator.build_step4_interior', model_id=model.id, color_id=color.id, wheel_id=wheel.id) }}" class="option-card">
+                <img src="{{ url_for('static', filename='uploads/' + wheel.image_file) }}" alt="{{ wheel.name }}" class="option-image">
+                <div class="option-info">
+                    <strong>{{ wheel.name }}</strong>
+                    <span>+ INR {{ "%.2f"|format(wheel.price) }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}
